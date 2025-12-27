@@ -366,7 +366,7 @@ if [[ $1 == "-f" || $1 == "--file" ]]; then
             echo -e "${CB}INFO:${NC} Not exist: ${CY}$line${NC}"
         fi
     done
-    echo -e "${CB}Size dotfiles${NC}: $(du -sh $HOME/.mydotfiles/backup |awk '{print $1}')"
+    echo -e "${CB}Size dotfiles${NC}: $(du -sh $BACKUP_DIR |awk '{print $1}')"
 fi
 
 # -----------------------------------------------
