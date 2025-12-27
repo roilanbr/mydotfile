@@ -20,8 +20,12 @@
 #####################################################################
 
 # Color
-CN='\e[1;30m'; CR='\e[31m'; CG='\e[32m'; CY='\e[33m'
-CB='\e[34m'; CC='\e[36m'; NC='\e[m'
+CR='\e[31m'; CG='\e[32m'; CY='\e[33m'; CB='\e[34m'; NC='\e[m'
+
+# Mensages de estado
+OK="[${CG} OK ${NC}]"
+INFO="${CB} -> ${NC}"
+ERROR="[${CR} ERROR ${NC}]"
 
 # Directorys
 DF_DIR="$HOME/.mydotfiles"
@@ -139,7 +143,7 @@ if [[ $1 == "-d" || $1 == "--delete" ]]; then
         # deleting record
         sed -i "\|'$2'|d" "$DB"
         # Info
-        echo -e "${CB} -> ${CG}Removed ${CY}$2${NC}"
+        echo -e "$INFO ${CG}Removed ${CY}$2${NC}"
         exit 0
     fi
 
@@ -174,7 +178,7 @@ funCheckDotfile(){
                 delete(){ if [[ -e "$BACKUP_DIR/$d" ]]; then rm -fr "$BACKUP_DIR/$d"; fi }
 
                 if [[ $RESPONSE == "a" ]]; then
-                    echo -e "${CB}->${NC} Deleted dotfile ${CY}$d${NC}"
+                    echo -e "$INFO Deleted dotfile ${CY}$d${NC}"
                     delete; break
                 fi
 
@@ -183,11 +187,11 @@ funCheckDotfile(){
                 RESPONSE="${RESPONSE,,}"
                 
                 if [[ $RESPONSE == "y" ]]; then
-                    echo -e "${CB}->${NC} Deleted dotfile ${CY}$d${NC}"
+                    echo -e "$INFO Deleted dotfile ${CY}$d${NC}"
                     delete; break
 
                 elif [[ $RESPONSE == "a" ]]; then
-                    echo -e "${CB}->${NC} Deleted dotfile ${CY}$d${NC}"
+                    echo -e "$INFO Deleted dotfile ${CY}$d${NC}"
                     delete; break
 
                 elif [[ $RESPONSE == "n" ]]; then
@@ -232,7 +236,7 @@ funCheckDatabase(){
 
                 # If RESPONSE is equal to a deleting file
                 if [[ $RESPONSE == "a" ]]; then
-                    echo -e "${CB}->${NC} Deleted record ${CY}$r${NC}"
+                    echo -e "$INFO Deleted record ${CY}$r${NC}"
                     delete; break
                 fi
 
@@ -242,11 +246,11 @@ funCheckDatabase(){
                 RESPONSE="${RESPONSE,,}"
 
                 if [[ $RESPONSE == "y" ]]; then
-                    echo -e "${CB}->${NC} Deleted record ${CY}$r${NC}"
+                    echo -e "$INFO Deleted record ${CY}$r${NC}"
                     delete; break
 
                 elif [[ $RESPONSE == "a" ]]; then
-                    echo -e "${CB}->${NC} Deleted record ${CY}$r${NC}"
+                    echo -e "$INFO Deleted record ${CY}$r${NC}"
                     delete; break
 
                 elif [[ $RESPONSE == "n" ]]; then
@@ -314,7 +318,7 @@ funUpdateDb(){
         sed -i "\|^'$L_NAME_DF'|d" $DB
         L_RECORD="'$L_NAME_DF' '$L_PATH_DF'"
         echo "'$L_NAME_DF' '$L_PATH_DF'" >> "$DB"
-        echo -e "${CB} -> ${CG}Imported ${CY}$L_NAME_DF $L_PATH_DF${NC}"
+        echo -e "$INFO ${CG}Imported ${CY}$L_NAME_DF $L_PATH_DF${NC}"
 }
 
 
@@ -362,6 +366,7 @@ if [[ $1 == "-f" || $1 == "--file" ]]; then
             echo -e "${CB}INFO:${NC} Not exist: ${CY}$line${NC}"
         fi
     done
+    echo -e "${CB}Size dotfiles${NC}: $(du -sh $HOME/.mydotfiles/backup |awk '{print $1}')"
 fi
 
 # -----------------------------------------------
@@ -427,7 +432,7 @@ funRestore(){
     local L_DST_PATH="$2"
     if [[ -e "$L_SRC_PATH" ]] && [[ -e $L_DST_PATH ]]; then
         rsync -rth "$L_SRC_PATH" "$L_DST_PATH"
-        echo -e "$CG->$NC restored ${CY}$L_SRC_PATH ${CB}$L_DST_PATH${NC}"
+        echo -e "$INFO restored ${CY}$L_SRC_PATH ${CB}$L_DST_PATH${NC}"
     fi
 }
 
