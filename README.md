@@ -6,7 +6,6 @@ Script para importar y restaurar dotfiles. Los `dotfiles` son configuraciones de
 
 ```bash
 sudo wget -c "https://github.com/roilanbr/mydotfile/raw/refs/heads/main/mydotfiles.sh" -O "/usr/bin/mydotfile"
-
 sudo chmod +x "/usr/bin/mydotfiles"
 ```
 
